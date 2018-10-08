@@ -27,12 +27,14 @@ double vImag[samples];
 
 
 double sumSirenSquare = 0.00;
-double samplingFFT[fftSamples];// sample 5 times per sec for 5 secs
+//double samplingFFT[fftSamples];// sample 5 times per sec for 5 secs
+double samplingFFT[fftSamples] = {0.1, 4.0, -2.2, 1.6, 0.1, 0.1, 0.2}; //For testing the algorithm
 double samplingFFTPadded[xCorrSize];
 
 
-double sirenFFT[sirenArrSize] = {439.13, 439.71, 438.43, 440.00, 439.18, 439.28, 439.39, 439.08, 439.26, 439.28, 438.89, 439.41, 439.73, 438.76, 439.28, 439.08, 439.44, 438.92, 439.93, 439.85, 438.84, 439.47, 439.42, 439.08, 440.02};
- //this is the full high detail array that we compare the the sampleFFT to
+//double sirenFFT[sirenArrSize] = {439.13, 439.71, 438.43, 440.00, 439.18, 439.28, 439.39, 439.08, 439.26, 439.28, 438.89, 439.41, 439.73, 438.76, 439.28, 439.08, 439.44, 438.92, 439.93, 439.85, 438.84, 439.47, 439.42, 439.08, 440.02};
+double sirenFFT[sirenArrSize] = { 0.1, 0.2, -0.1, 4.1, -2.0, 1.5, -0.1 };  //For testing the algorithm
+//this is the full high detail array that we compare the the sampleFFT to
 double sirenFFTPadded[xCorrSize];
 
 
@@ -90,7 +92,7 @@ void populateFFTArray()
 {
   for(int x = 0; x < fftSamples; x++) //populate the samplingFFT[] array
   {
-    samplingFFT[x] = CalcFFT();
+    //samplingFFT[x] = CalcFFT(); //edit out for testing algorithm
 
     while(micros() < microseconds + fftSamplingPeriod);
     {
