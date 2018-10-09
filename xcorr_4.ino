@@ -94,7 +94,7 @@ void loop()
   
       Serial.println(peak);
   
-      //input[i] = peak;
+      input[i] = peak;
     }
   
     /*
@@ -111,11 +111,6 @@ void loop()
       //while(1); //Run code once
   }
     
-}
-
-void getVolts()
-{
-  
 }
 
 void correlation() 
