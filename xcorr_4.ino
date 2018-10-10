@@ -1,7 +1,7 @@
 #include "arduinoFFT.h"
  
-#define SAMPLES 256             //Must be a power of 2
-#define SAMPLING_FREQUENCY 10000 //Hz, must be less than 10000 due to ADC
+#define SAMPLES 128             //Must be a power of 2
+#define SAMPLING_FREQUENCY 12000 //Hz, must be less than 10000 due to ADC
 
 //For FFT
 arduinoFFT FFT = arduinoFFT();
@@ -20,16 +20,6 @@ int shiftSize = (trueArraySize*2) - 1; //for test ans = 13, change this for smal
 double sumSirenSquare = 0.00;
 double siren[7] = {0.1, 0.2, -0.1, 4.1, -2.0, 1.5, -0.1}; //test but not going to work with unsigned long
 double newSiren[13];
-
-long sumPolicePursuitVolts = 0.0;
-long sumPolicePursuitFreqs = 0.0;
-double policePursuitVolts[100];
-double policePursuitFreqs[32];
-
-long sumFireAlarmVolts = 0.0;
-long sumFireAlarmFreq = 0.0;
-double fireAlarmVolts[100];
-double fireAlarmFreqs[32];
 
 //Fill the array that store the input and will be use for shifting
 double input[7] = {0.1, 4.0, -2.2, 1.6, 0.1, 0.1, 0.2}; //test but not going to work with unsigned long
@@ -104,7 +94,7 @@ void loop()
   
       Serial.println(peak);
   
-      //input[i] = peak;
+      input[i] = peak;
     }
   
     /*
@@ -121,11 +111,6 @@ void loop()
       //while(1); //Run code once
   }
     
-}
-
-void getVolts()
-{
-  
 }
 
 void correlation() 
