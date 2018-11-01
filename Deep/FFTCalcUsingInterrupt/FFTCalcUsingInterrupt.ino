@@ -23,6 +23,7 @@ void setup()
   Serial.begin(115200);
   samplingPeriod = round(1000000*(1.0/samplingFreq));
   timerFFT.begin(FFTCalc, 250000); //runs 4 times a second
+  //timerAmp.begin(getAmp, 20); 
 }
 
 void loop() 

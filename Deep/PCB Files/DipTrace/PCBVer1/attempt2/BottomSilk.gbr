@@ -1,0 +1,10 @@
+%TF.GenerationSoftware,Novarm,DipTrace,3.2.0.1*%
+%TF.CreationDate,2018-10-31T10:57:36-06:00*%
+%FSLAX26Y26*%
+%MOIN*%
+%TF.FileFunction,Legend,Bot*%
+%TF.Part,Single*%
+G75*
+G01*
+%LPD*%
+M02*

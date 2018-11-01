@@ -1,0 +1,10 @@
+FLOAT {
+    NAME=dielectric_constant
+    PROMPT=Dielectric Constant (ER)
+    MIN_VAL=0.0
+    MAX_VAL=1000.0
+    ENTITY=LAYER
+    DEF=0.0
+    UNITS=NO_UNITS
+}
+
