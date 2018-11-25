@@ -837,8 +837,8 @@ void directionality() //TimeTest
         h++;
         //store8 = store8+h;
       }
-      else
-        Serial.println("cal is wrong");
+      /*else
+        Serial.println("cal is wrong");*/
     }
 
     z++;
