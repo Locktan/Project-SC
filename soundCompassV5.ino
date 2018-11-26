@@ -171,7 +171,7 @@ void loop()
   }
   */
 
-  int incomingChar = 'n';
+  int incomingChar = 'y';
 
   if (incomingChar == 'n')
   {
@@ -188,7 +188,7 @@ void loop()
     for(int i = 0; i < 1; i++)
       {
         directionality();
-        delay(44);
+        //delay(44);
       }
   }
   
@@ -369,6 +369,8 @@ void directionality() //TimeTest
 {
   int samplingTime = 867;
 
+  double ppkTheshold = 20;
+
   int z = 0;
 
   double avgSum1;
@@ -419,7 +421,7 @@ void directionality() //TimeTest
   double mic7ppk[samplingTime];
   double mic8ppk[samplingTime];
     
-  while (z < 10)
+  while (z < 5)
   {
     mic1LocationAndFirstPpkAndSum[1] = 0; 
     mic2LocationAndFirstPpkAndSum[1] = 0;   
@@ -450,10 +452,10 @@ void directionality() //TimeTest
     //Collect data for 50 mS or set sampleWindow
     for (int i = 0; i < samplingTime; i++)
     {  
-      double micsAnalog[8] = {analogRead(mic1)*1.001, analogRead(mic2)*0.997, analogRead(mic3)*1.001, analogRead(mic4)*1.003, 
-                            analogRead(mic5)*0.998, analogRead(mic6)*1.000, analogRead(mic7)*0.999, analogRead(mic8)*1.001};
+      double micsAnalog[8] = {analogRead(mic1)*0.9994, analogRead(mic2)*0.9990, analogRead(mic3), analogRead(mic4)*0.9989, 
+                            analogRead(mic5)*0.9944, analogRead(mic6)*0.9988, analogRead(mic7)*1.0016, analogRead(mic8)*0.9967};
       /*double micsAnalog[8] = {analogRead(mic1), analogRead(mic2), analogRead(mic3), analogRead(mic4), 
-                            analogRead(mic5), analogRead(mic6), analogRead(mic7), analogRead(mic8)};*/
+                            analogRead(mic5), analogRead(mic6), analogRead(mic7), analogRead(mic8)}; analogRead(mic3)*1.0114*/
 
       /*if (micsAnalog[0] < 0)
         micsAnalog[0] = 0.0;
@@ -481,6 +483,9 @@ void directionality() //TimeTest
 
         //Get peak to peak  
         mic1ppk[i] = (signalMax1 - signalMin1);       //max - min = peak-peak amplitude
+
+        if (mic1ppk[i] < ppkTheshold)
+          mic1ppk[i] = 0;
       }
   
       if (micsAnalog[1] < 1023)  
@@ -491,6 +496,9 @@ void directionality() //TimeTest
           signalMin2 = micsAnalog[1];
         
         mic2ppk[i] = (signalMax2 - signalMin2);
+
+        if (mic2ppk[i] < ppkTheshold)
+          mic2ppk[i] = 0;
       }
   
       if (micsAnalog[2] < 1023) 
@@ -500,7 +508,10 @@ void directionality() //TimeTest
         else if (micsAnalog[2] < signalMin3)
           signalMin3 = micsAnalog[2];
         
-        mic3ppk[i] = (signalMax3 - signalMin3);  
+        mic3ppk[i] = (signalMax3 - signalMin3); 
+        
+        if (mic3ppk[i] < ppkTheshold)
+          mic3ppk[i] = 0; 
       }
   
       if (micsAnalog[3] < 1023)
@@ -511,6 +522,9 @@ void directionality() //TimeTest
           signalMin4 = micsAnalog[3];
             
         mic4ppk[i] = (signalMax4 - signalMin4); 
+
+        if (mic4ppk[i] < ppkTheshold)
+          mic4ppk[i] = 0;
       }
       
       if (micsAnalog[4] < 1023)
@@ -521,6 +535,9 @@ void directionality() //TimeTest
           signalMin5 = micsAnalog[4];
           
         mic5ppk[i] = (signalMax5 - signalMin5); 
+
+        if (mic5ppk[i] < ppkTheshold)
+          mic5ppk[i] = 0;
       }
       
       if (micsAnalog[5] < 1023)
@@ -531,6 +548,9 @@ void directionality() //TimeTest
           signalMin6 = micsAnalog[5];
           
         mic6ppk[i] = (signalMax6 - signalMin6);
+
+        if (mic6ppk[i] < ppkTheshold)
+          mic6ppk[i] = 0;
       }
       
       if (micsAnalog[6] < 1023)
@@ -541,6 +561,9 @@ void directionality() //TimeTest
           signalMin7 = micsAnalog[6];
         
         mic7ppk[i] = (signalMax7 - signalMin7);
+
+        if (mic7ppk[i] < ppkTheshold)
+          mic7ppk[i] = 0;
       }
       
       if (micsAnalog[7] < 1023)
@@ -551,6 +574,9 @@ void directionality() //TimeTest
           signalMin8 = micsAnalog[7];
           
         mic8ppk[i] = (signalMax8 - signalMin8);
+
+        if (mic8ppk[i] < ppkTheshold)
+          mic8ppk[i] = 0;
       }
 
       //Get sum of analog
@@ -931,7 +957,7 @@ void directionality() //TimeTest
   Serial.print("   ");
   Serial.println(analogRead(A7));
   delay(500);*/
-  Serial.print(avgSum1);
+  /*Serial.print(avgSum1);
   Serial.print("   ");
   Serial.print(avgSum2);
   Serial.print("   ");
@@ -945,7 +971,7 @@ void directionality() //TimeTest
   Serial.print("   ");
   Serial.print(avgSum7);
   Serial.print("   ");
-  Serial.println(avgSum8);
+  Serial.println(avgSum8);*/
 
   if(avgSum1 > avgSum2 && avgSum1 > avgSum3 && avgSum1 > avgSum4 && avgSum1 > avgSum5
   && avgSum1 > avgSum6 && avgSum1 > avgSum7 && avgSum1 > avgSum8)
