@@ -32,7 +32,7 @@ double vImagMic5[SAMPLES];
 double vImagMic6[SAMPLES];
 double vImagMic7[SAMPLES];
 double vImagMic8[SAMPLES];
- 
+
 //Need for screen display
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
@@ -188,6 +188,7 @@ void loop()
     for(int i = 0; i < 1; i++)
       {
         directionality();
+        correlation();
         //delay(44);
       }
   }
@@ -200,20 +201,20 @@ void loop()
 
 void directionality() //TimeTest
 {
-  int samplingTime = 867;
+  int samplingTime = 430; //867;
 
-  double ppkTheshold = 30;
+  double ppkTheshold = 25;
 
   int z = 0;
 
-  double avgSum1 = 0;
-  double avgSum2 = 0;
-  double avgSum3 = 0;
-  double avgSum4 = 0;
-  double avgSum5 = 0;
-  double avgSum6 = 0;
-  double avgSum7 = 0;
-  double avgSum8 = 0;
+  double avgSum1;
+  double avgSum2;
+  double avgSum3;
+  double avgSum4;
+  double avgSum5;
+  double avgSum6;
+  double avgSum7;
+  double avgSum8;
   
   int store1 = 0;
   int store2 = 0;
@@ -254,7 +255,7 @@ void directionality() //TimeTest
   double mic7ppk[samplingTime];
   double mic8ppk[samplingTime];
     
-  while (z < 5)
+  while (z < 10)
   {
     mic1FirstPpkAndSum[1] = 0; 
     mic2FirstPpkAndSum[1] = 0;   
@@ -632,127 +633,82 @@ void directionality() //TimeTest
     if (micsSum[0] > thresholdActivate || micsSum[1] > thresholdActivate || micsSum[2] > thresholdActivate || micsSum[3] > thresholdActivate 
     || micsSum[4] > thresholdActivate || micsSum[5] > thresholdActivate || micsSum[6] > thresholdActivate || micsSum[7] > thresholdActivate)
     {
-      int maxVal = 0;
-      int posMic  = 0;
-
-      if(micsSum[0] + micsSum[1] + micsSum[2] > maxVal)
+      if (mic1FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic1FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic1FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && mic1FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && 
+         mic1FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic1FirstPpkAndSum[0] > mic7FirstPpkAndSum[0] && mic1FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        maxVal = micsSum[0] + micsSum[1] + micsSum[2];
-        posMic = 2;
-      }
-      if(micsSum[1] + micsSum[2] + micsSum[3] > maxVal)
-      {
-        maxVal = micsSum[1] + micsSum[2] + micsSum[3];
-        posMic = 3;
-      }
-      if(micsSum[2] + micsSum[3] + micsSum[4] > maxVal)
-      {
-        maxVal = micsSum[2] + micsSum[3] + micsSum[4];
-        posMic = 4;
-      }
-      if(micsSum[3] + micsSum[4] + micsSum[5] > maxVal)
-      {
-        maxVal = micsSum[3] + micsSum[4] + micsSum[5];
-        posMic = 5;
-      }
-      if(micsSum[4] + micsSum[5] + micsSum[6] > maxVal)
-      {
-        maxVal = micsSum[4] + micsSum[5] + micsSum[6];
-        posMic = 6;
-      }
-      if(micsSum[5] + micsSum[6] + micsSum[7] > maxVal)
-      {
-        maxVal = micsSum[5] + micsSum[6] + micsSum[7];
-        posMic = 7;
-      }
-      if(micsSum[6] + micsSum[7] + micsSum[0] > maxVal)
-      {
-        maxVal = micsSum[6] + micsSum[7] + micsSum[0];
-        posMic = 8;
-      }
-      if(micsSum[7] + micsSum[0] + micsSum[1] > maxVal)
-      {
-        maxVal = micsSum[7] + micsSum[0] + micsSum[1];
-        posMic = 1;
-      }
-
-      Serial.println(posMic);
-      
-      if (posMic == 2)
-      {
-        store1 = store1 + micsSum[0] + micsSum[1] + micsSum[2];
-        //a++;
+        //Serial.println("Peak decected: Mic 1 is the loudest");
+        /*store1 = store1+mic1FirstPpkAndSum[0];
+        a++;*/
         a = 1;
-        //store1 = store1+a;
+        store1 = store1+a;
       }
-      else if (posMic == 3)
+      if (mic2FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic2FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic2FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && mic2FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && 
+              mic2FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic2FirstPpkAndSum[0] > mic7FirstPpkAndSum[0] && mic2FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        store2 = store2 + micsSum[1] + micsSum[2] + micsSum[3];
-        //b++;
+        //Serial.println("Peak decected: Mic 2 is the loudest");
+        /*store2 = store2+mic2FirstPpkAndSum[0];
+        b++;*/
         b = 1;
-        //store2 = store2+b;
+        store2 = store2+b;
       }
-      else if (posMic == 4)
+      if (mic3FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic3FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic3FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && mic3FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && 
+              mic3FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic3FirstPpkAndSum[0] > mic7FirstPpkAndSum[0] && mic3FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        store3 = store3 + micsSum[2] + micsSum[3] + micsSum[4];
-        //c++;
+        //Serial.println("Peak decected: Mic 3 is the loudest");
+        /*store3 = store3+mic3FirstPpkAndSum[0];
+        c++;*/
         c = 1;
-        //store3 = store3+c;
+        store3 = store3+c;
       }
-      else if (posMic == 5)
+      if (mic4FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic4FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic4FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic4FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && 
+              mic4FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic4FirstPpkAndSum[0] > mic7FirstPpkAndSum[0] && mic4FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        store4 = store4 + micsSum[3] + micsSum[4] + micsSum[5];
-        //d++;
+        //Serial.println("Peak decected: Mic 4 is the loudest");
+        /*store4 = store4+mic4FirstPpkAndSum[0];
+        d++;*/
         d = 1;
-        //store4 = store4+d;
+        store4 = store4+d;
       }
-      else if (posMic == 6)
+      if (mic5FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic5FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic5FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic5FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && 
+              mic5FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic5FirstPpkAndSum[0] > mic7FirstPpkAndSum[0] && mic5FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        store5 = store5 + micsSum[4] + micsSum[5] + micsSum[6];
-        //e++;
+        //Serial.println("Peak decected: Mic 5 is the loudest");
+        /*store5 = store5+mic5FirstPpkAndSum[0];
+        e++;*/
         e = 1;
-        //store5 = store5+e;
+        store5 = store5+e;
       }
-      else if (posMic == 7)
+      if (mic6FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic6FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic6FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic6FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && 
+              mic6FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && mic6FirstPpkAndSum[0] > mic7FirstPpkAndSum[0] && mic6FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        store6 = store6 + micsSum[5] + micsSum[6] + micsSum[7];
-        //f++;
+        //Serial.println("Peak decected: Mic 6 is the loudest");
+        /*store6 = store6+mic6FirstPpkAndSum[0];
+        f++;*/
         f = 1;
-        //store6 = store6+f;
+        store6 = store6+f;
       }
-      else if (posMic == 8)
+      if (mic7FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic7FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic7FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic7FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && 
+              mic7FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && mic7FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic7FirstPpkAndSum[0] > mic8FirstPpkAndSum[0])
       {
-        store7 = store7 + micsSum[6] + micsSum[7] + micsSum[0];
-        //g++;
+        //Serial.println("Peak decected: Mic 7 is the loudest");
+        /*store7 = store7+mic7FirstPpkAndSum[0];
+        g++;*/
         g = 1;
-        //store7 = store7+g;
+        store7 = store7+g;
       }
-      else if (posMic == 1)
+      if (mic8FirstPpkAndSum[0] > mic1FirstPpkAndSum[0] && mic8FirstPpkAndSum[0] > mic2FirstPpkAndSum[0] && mic8FirstPpkAndSum[0] > mic3FirstPpkAndSum[0] && mic8FirstPpkAndSum[0] > mic4FirstPpkAndSum[0] && 
+              mic8FirstPpkAndSum[0] > mic5FirstPpkAndSum[0] && mic8FirstPpkAndSum[0] > mic6FirstPpkAndSum[0] && mic8FirstPpkAndSum[0] > mic7FirstPpkAndSum[0])
       {
-        store8 = store8 + micsSum[7] + micsSum[0] + micsSum[1];
-        //h++;
+        //Serial.println("Peak decected: Mic 8 is the loudest");
+        /*store8 = store8+mic8FirstPpkAndSum[0];
+        h++;*/
         h = 1;
-        //store8 = store8+h;
+        store8 = store8+h;
       }
+      /*else
+        Serial.println("cal is wrong");*/
     }
 
-
-    /*Serial.print(store1);
-    Serial.print("  ");
-    Serial.print(store2);
-    Serial.print("  ");
-    Serial.print(store3);
-    Serial.print("  ");
-    Serial.print(store4);
-    Serial.print("  ");
-    Serial.print(store5);
-    Serial.print("  ");
-    Serial.print(store6);
-    Serial.print("  ");
-    Serial.print(store7);
-    Serial.print("  ");
-    Serial.println(store8);*/
-    
     z++;
   }
 
@@ -812,7 +768,7 @@ void directionality() //TimeTest
     avgSum8 = store8/h;
   else 
     avgSum8 = 0;
-
+    
   //For debugging
   //Print to screen
   /*tft.fillRect(0, 76, 128, 84, ST7735_BLACK);
@@ -827,6 +783,22 @@ void directionality() //TimeTest
   tft.println(avgSum8);*/
 
   //Print to console
+  /*Serial.print(analogRead(A0));
+  Serial.print("   ");
+  Serial.print(analogRead(A1));
+  Serial.print("   ");
+  Serial.print(analogRead(A2));
+  Serial.print("   ");
+  Serial.print(analogRead(A3));
+  Serial.print("   ");
+  Serial.print(analogRead(A4));
+  Serial.print("   ");
+  Serial.print(analogRead(A5));
+  Serial.print("   ");
+  Serial.print(analogRead(A6));
+  Serial.print("   ");
+  Serial.println(analogRead(A7));
+  delay(500);*/
   /*Serial.print(avgSum1);
   Serial.print("   ");
   Serial.print(avgSum2);
@@ -843,50 +815,49 @@ void directionality() //TimeTest
   Serial.print("   ");
   Serial.println(avgSum8);*/
 
-  if((avgSum1 > avgSum2) && (avgSum1 > avgSum3) && (avgSum1 > avgSum4) && (avgSum1 > avgSum5)
-  && (avgSum1 > avgSum6) && (avgSum1 > avgSum7) && (avgSum1 > avgSum8))
+  if(avgSum1 > avgSum2 && avgSum1 > avgSum3 && avgSum1 > avgSum4 && avgSum1 > avgSum5
+  && avgSum1 > avgSum6 && avgSum1 > avgSum7 && avgSum1 > avgSum8)
+  {
+    displayDirection("1", 0);
+  }   
+  else if(avgSum2 > avgSum1 && avgSum2 > avgSum3 && avgSum2 > avgSum4 && avgSum2 > avgSum5 
+  && avgSum2 > avgSum6 && avgSum2 > avgSum7 && avgSum2 > avgSum8)
   {
     displayDirection("2", 1);
-  }   
-  else if((avgSum2 > avgSum1) && (avgSum2 > avgSum3) && (avgSum2 > avgSum4) && (avgSum2 > avgSum5) 
-       && (avgSum2 > avgSum6) && (avgSum2 > avgSum7) && (avgSum2 > avgSum8))
-  {
-    displayDirection("3", 2);
   }
-  else if((avgSum3 > avgSum1) && (avgSum3 > avgSum2) && (avgSum3 > avgSum4) && (avgSum3 > avgSum5) 
-       && (avgSum3 > avgSum6) && (avgSum3 > avgSum7) && (avgSum3 > avgSum8))
+  else if(avgSum3 > avgSum1 && avgSum3 > avgSum2 && avgSum3 > avgSum4 && avgSum3 > avgSum5 
+  && avgSum3 > avgSum6 && avgSum3 > avgSum7 && avgSum3 > avgSum8)
   { 
-    displayDirection("4", 3);
+    displayDirection("3", 2);
   } 
-  else if((avgSum4 > avgSum1) && (avgSum4 > avgSum2) && (avgSum4 > avgSum3) && (avgSum4 > avgSum5) 
-       && (avgSum4 > avgSum6) && (avgSum4 > avgSum7) && (avgSum4 > avgSum8))
+  else if(avgSum4 > avgSum1 && avgSum4 > avgSum2 && avgSum4 > avgSum3 && avgSum4 > avgSum5 
+  && avgSum4 > avgSum6 && avgSum4 > avgSum7 && avgSum4 > avgSum8)
+  {
+    displayDirection("4", 3);
+  }   
+  else if(avgSum5 > avgSum1 && avgSum5 > avgSum2 && avgSum5 > avgSum3 && avgSum5 > avgSum4 
+  && avgSum5 > avgSum6 && avgSum5 > avgSum7 && avgSum5 > avgSum8)
   {
     displayDirection("5", 4);
-  }   
-  else if((avgSum5 > avgSum1) && (avgSum5 > avgSum2) && (avgSum5 > avgSum3) && (avgSum5 > avgSum4) 
-       && (avgSum5 > avgSum6) && (avgSum5 > avgSum7) && (avgSum5 > avgSum8))
-  {
-    displayDirection("6", 5);
   }
-  else if((avgSum6 > avgSum1) && (avgSum6 > avgSum2) && (avgSum6 > avgSum3) && (avgSum6 > avgSum4) 
-       && (avgSum6 > avgSum5) && (avgSum6 > avgSum7) && (avgSum6 > avgSum8))
+  else if(avgSum6 > avgSum1 && avgSum6 > avgSum2 && avgSum6 > avgSum3 && avgSum6 > avgSum4 
+  && avgSum6 > avgSum5 && avgSum6 > avgSum7 && avgSum6 > avgSum8)
   {
-    displayDirection("7", 6); 
+    displayDirection("6", 5); 
   }
-  else if((avgSum7 > avgSum1) && (avgSum7 > avgSum2) && (avgSum7 > avgSum3) && (avgSum7 > avgSum4)
-       && (avgSum7 > avgSum5) && (avgSum7 > avgSum6) && (avgSum7 > avgSum8))
+  else if(avgSum7 > avgSum1 && avgSum7 > avgSum2 && avgSum7 > avgSum3 && avgSum7 > avgSum4 
+  && avgSum7 > avgSum5 && avgSum7 > avgSum6 && avgSum7 > avgSum8)
+  {
+    displayDirection("7", 6);
+  }
+  else if(avgSum8 > avgSum1 && avgSum8 > avgSum2 && avgSum8 > avgSum3 && avgSum8 > avgSum4 
+  && avgSum8 > avgSum5 && avgSum8 > avgSum6 && avgSum8 > avgSum7)
   {
     displayDirection("8", 7);
   }
-  else if((avgSum8 > avgSum1) && (avgSum8 > avgSum2) && (avgSum8 > avgSum3) && (avgSum8 > avgSum4) 
-       && (avgSum8 > avgSum5) && (avgSum8 > avgSum6) && (avgSum8 > avgSum7))
-  {
-    displayDirection("1", 0);
-  }
   else
   {
-    Serial.println("No output, below threshold");
-    tft.fillScreen(ST7735_BLACK);
+    displayDirection("", 10);
   }
 }
 
@@ -924,6 +895,9 @@ void getFFT()
         
       micInput[i] = vReal[i];
   }
+
+  //delay(1000);  //Repeat the process every second OR:
+  //while(1);       //Run code once
 }
 
 void correlation()
@@ -1094,11 +1068,8 @@ void displayDirection(String mic, int directionCoordinate)
       tft.fillTriangle(83, 11, 83, 53, 69, 32, ST7735_BLACK);
       break;
     default:
-      Serial.println("Wrong input for the direction");
-      tft.setCursor(0, 0);
-      //tft.setTextColor(ST7735_RED);
-      tft.setTextSize(2);
-      tft.print("No direction input");
+      Serial.println("No input for the direction");
+      tft.fillRect(34, 5, 55, 55, ST7735_BLACK);
       break;
   }
 
