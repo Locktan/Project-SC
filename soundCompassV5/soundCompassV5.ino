@@ -635,44 +635,44 @@ void directionality() //TimeTest
       int maxVal = 0;
       int posMic  = 0;
 
-      if(micsSum[0] + micsSum[1] + micsSum[2] > maxVal)
+      if(micsSum[7] + micsSum[0] + micsSum[1] + micsSum[2] + micsSum[3] > maxVal)
       {
-        maxVal = micsSum[0] + micsSum[1] + micsSum[2];
+        maxVal = micsSum[7] + micsSum[0] + micsSum[1] + micsSum[2] + micsSum[3];
         posMic = 2;
       }
-      if(micsSum[1] + micsSum[2] + micsSum[3] > maxVal)
+      if( micsSum[0] + micsSum[1] + micsSum[2] + micsSum[3] +  micsSum[4] > maxVal)
       {
-        maxVal = micsSum[1] + micsSum[2] + micsSum[3];
+        maxVal = micsSum[0] + micsSum[1] + micsSum[2] + micsSum[3] +  micsSum[4];
         posMic = 3;
       }
-      if(micsSum[2] + micsSum[3] + micsSum[4] > maxVal)
+      if(micsSum[1] + micsSum[2] + micsSum[3] + micsSum[4] + micsSum[5] > maxVal)
       {
-        maxVal = micsSum[2] + micsSum[3] + micsSum[4];
+        maxVal = micsSum[1] + micsSum[2] + micsSum[3] + micsSum[4] + micsSum[5];
         posMic = 4;
       }
-      if(micsSum[3] + micsSum[4] + micsSum[5] > maxVal)
+      if(micsSum[2] + micsSum[3] + micsSum[4] + micsSum[5] + micsSum[6] > maxVal)
       {
-        maxVal = micsSum[3] + micsSum[4] + micsSum[5];
+        maxVal = micsSum[2] + micsSum[3] + micsSum[4] + micsSum[5] + micsSum[6];
         posMic = 5;
       }
-      if(micsSum[4] + micsSum[5] + micsSum[6] > maxVal)
+      if(micsSum[3] + micsSum[4] + micsSum[5] + micsSum[6] + micsSum[7] > maxVal)
       {
-        maxVal = micsSum[4] + micsSum[5] + micsSum[6];
+        maxVal = micsSum[3] + micsSum[4] + micsSum[5] + micsSum[6] + micsSum[7];
         posMic = 6;
       }
-      if(micsSum[5] + micsSum[6] + micsSum[7] > maxVal)
+      if(micsSum[4] + micsSum[5] + micsSum[6] + micsSum[7] + micsSum[0] > maxVal)
       {
-        maxVal = micsSum[5] + micsSum[6] + micsSum[7];
+        maxVal = micsSum[4] + micsSum[5] + micsSum[6] + micsSum[7] + micsSum[0];
         posMic = 7;
       }
-      if(micsSum[6] + micsSum[7] + micsSum[0] > maxVal)
+      if(micsSum[5]+ micsSum[6] + micsSum[7] + micsSum[0] + micsSum[1] > maxVal)
       {
-        maxVal = micsSum[6] + micsSum[7] + micsSum[0];
+        maxVal = micsSum[5]+ micsSum[6] + micsSum[7] + micsSum[0] + micsSum[1];
         posMic = 8;
       }
-      if(micsSum[7] + micsSum[0] + micsSum[1] > maxVal)
+      if(micsSum[6] + micsSum[7] + micsSum[0] + micsSum[1] + micsSum[2] > maxVal)
       {
-        maxVal = micsSum[7] + micsSum[0] + micsSum[1];
+        maxVal = micsSum[6] + micsSum[7] + micsSum[0] + micsSum[1] + micsSum[2];
         posMic = 1;
       }
 
