@@ -1019,45 +1019,46 @@ void directionality3()
 
 
 
-   if(micData[8] + micData[1] + micData[2] > maxVal)
+
+    if(micData[1] + micData[2] > maxVal)
     {
-      maxVal = micData[8] + micData[1] + micData[2] ;
-      position = 0;
-    }
-    if(micData[1] + micData[2] + micData[3] > maxVal)
-    {
-      maxVal = micData[1] + micData[2] + micData[3] ;
+      maxVal = micData[1] + micData[2];
       position = 1;
     }
-    if(micData[2] + micData[3] + micData[4] > maxVal)
+    if(micData[2] + micData[3] > maxVal)
     {
-      maxVal = micData[2] + micData[3] + micData[4];
+      maxVal = micData[2] + micData[3];
       position = 2;
     }
-    if(micData[3] + micData[4] + micData[5] > maxVal)
+    if(micData[3] + micData[4] > maxVal)
     {
-       maxVal = micData[3] + micData[4] + micData[5];
+      maxVal = micData[3] + micData[4];
       position = 3;
     }
-    if(micData[4] + micData[5] + micData[6] > maxVal)
+    if(micData[4] + micData[5] > maxVal)
     {
-       maxVal = micData[4] + micData[5] + micData[6];
+      maxVal = micData[4] + micData[5];
       position = 4;
     }
-    if(micData[5] + micData[6] + micData[7] > maxVal)
+    if(micData[5] + micData[6] > maxVal)
     {
-       maxVal = micData[5] + micData[6] + micData[7];
+      maxVal = micData[5] + micData[6];
       position = 5;
     }
-    if(micData[6] + micData[7] + micData[8] > maxVal)
+    if(micData[6] + micData[7] > maxVal)
     {
-       maxVal = micData[6] + micData[7] + micData[8];
+      maxVal = micData[6] + micData[7];
       position = 6;
     }
-    if(micData[7] + micData[8] + micData[1] > maxVal)
+    if(micData[7] + micData[8] > maxVal)
     {
-       maxVal = micData[7] + micData[8] + micData[1];
+      maxVal = micData[7] + micData[8];
       position = 7;
+    }
+    if(micData[8] + micData[1] > maxVal)
+    {
+      maxVal = micData[8] + micData[1];
+      position = 8;
     }
 
     displayDirection("nan", position);
