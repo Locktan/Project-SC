@@ -32,17 +32,7 @@ double vImagMic5[SAMPLES];
 double vImagMic6[SAMPLES];
 double vImagMic7[SAMPLES];
 double vImagMic8[SAMPLES];
-
-int max3[3] = {0,0,0};
  
- double avgSum1;
- double avgSum2;
- double avgSum3;
- double avgSum4;
- double avgSum5;
- double avgSum6;
- double avgSum7;
- double avgSum8;
 //Need for screen display
 #include <Adafruit_GFX.h>
 #include <Adafruit_ST7735.h>
@@ -208,191 +198,22 @@ void loop()
   //vibrationMotor(600);
 }
 
-void getFFTDirectionality2()
-{ 
-  //SAMPLING
-  for(int i = 0; i < SAMPLES; i++)
-  {
-      microseconds = micros();    //Overflows after around 70 minutes!
-
-      int micAnalog[8] = {analogRead(mic1), analogRead(mic2), analogRead(mic3), analogRead(mic4),
-                    analogRead(mic5), analogRead(mic6), analogRead(mic7), analogRead(mic8)};
-   
-      vRealMic1[i] = micAnalog[0];
-      vRealMic2[i] = micAnalog[1];
-      vRealMic3[i] = micAnalog[2];
-      vRealMic4[i] = micAnalog[3];
-      vRealMic5[i] = micAnalog[4];
-      vRealMic6[i] = micAnalog[5];
-      vRealMic7[i] = micAnalog[6];
-      vRealMic8[i] = micAnalog[7];
-      
-      vImagMic1[i] = 0;
-      vImagMic2[i] = 0;
-      vImagMic3[i] = 0;
-      vImagMic4[i] = 0;
-      vImagMic5[i] = 0;
-      vImagMic6[i] = 0;
-      vImagMic7[i] = 0;
-      vImagMic8[i] = 0;
-   
-      while(micros() < (microseconds + sampling_period_us))
-      {}
-  }
-
-  //FFT
-  FFT.Windowing(vRealMic1, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic2, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic3, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic4, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic5, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic6, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic7, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  FFT.Windowing(vRealMic8, SAMPLES, FFT_WIN_TYP_HAMMING, FFT_FORWARD);
-  
-  FFT.Compute(vRealMic1, vImagMic1, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic2, vImagMic2, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic3, vImagMic3, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic4, vImagMic4, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic5, vImagMic5, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic6, vImagMic6, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic7, vImagMic7, SAMPLES, FFT_FORWARD);
-  FFT.Compute(vRealMic8, vImagMic8, SAMPLES, FFT_FORWARD);
-  
-  FFT.ComplexToMagnitude(vRealMic1, vImagMic1, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic2, vImagMic2, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic3, vImagMic3, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic4, vImagMic4, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic5, vImagMic5, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic6, vImagMic6, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic7, vImagMic7, SAMPLES);
-  FFT.ComplexToMagnitude(vRealMic8, vImagMic8, SAMPLES);
-  
-  double peakMic1 = FFT.MajorPeak(vRealMic1, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic2 = FFT.MajorPeak(vRealMic2, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic3 = FFT.MajorPeak(vRealMic3, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic4 = FFT.MajorPeak(vRealMic4, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic5 = FFT.MajorPeak(vRealMic5, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic6 = FFT.MajorPeak(vRealMic6, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic7 = FFT.MajorPeak(vRealMic7, SAMPLES, SAMPLING_FREQUENCY);
-  double peakMic8 = FFT.MajorPeak(vRealMic8, SAMPLES, SAMPLING_FREQUENCY);
-
-  //Serial.println(peak);     //Print out what frequency is the most dominant.
-
-  /*for(int i = 0; i < (SAMPLES/2); i++)
-  {
-      //View all these three lines in serial terminal to see which frequencies has which amplitudes     
-      //Serial.print((i * 1.0 * SAMPLING_FREQUENCY) / SAMPLES, 1);
-      //Serial.print(" ");
-      //Serial.println(vReal[i], 1);    //View only this line in serial plotter to visualize the bins
-      if (i < 10)
-        vReal[i] = 0;
-        
-      micInput[i] = vReal[i];
-  }*/
-
-  for (int i = 0; i < 10; i++)
-  {
-    vRealMic1[i] = 0;
-    vRealMic2[i] = 0;
-    vRealMic3[i] = 0;
-    vRealMic4[i] = 0;
-    vRealMic5[i] = 0;
-    vRealMic6[i] = 0;
-    vRealMic7[i] = 0;
-    vRealMic8[i] = 0;
-  }
-}
-
-void directionality2()
-{
-  unsigned long sumMic1 = 0;
-  unsigned long sumMic2 = 0;
-  unsigned long sumMic3 = 0;
-  unsigned long sumMic4 = 0;
-  unsigned long sumMic5 = 0;
-  unsigned long sumMic6 = 0;
-  unsigned long sumMic7 = 0;
-  unsigned long sumMic8 = 0;
-
-  for (int i = 0; i < (SAMPLES/2); i++)
-  {                   
-    sumMic1 = sumMic1 + pow(vRealMic1[i], 2);
-    sumMic2 = sumMic2 + pow(vRealMic2[i], 2);
-    sumMic3 = sumMic3 + pow(vRealMic3[i], 2);
-    sumMic4 = sumMic4 + pow(vRealMic4[i], 2);
-    sumMic5 = sumMic5 + pow(vRealMic5[i], 2);
-    sumMic6 = sumMic6 + pow(vRealMic6[i], 2);
-    sumMic7 = sumMic7 + pow(vRealMic7[i], 2);
-    sumMic8 = sumMic8 + pow(vRealMic8[i], 2);
-  }
-
-  //Active when above threshold
-  //If active find the highest sound
-  if (sumMic1 > thresholdActivateSumFFTMethod || sumMic2 > thresholdActivateSumFFTMethod || sumMic3 > thresholdActivateSumFFTMethod || sumMic4 > thresholdActivateSumFFTMethod || 
-      sumMic5 > thresholdActivateSumFFTMethod || sumMic6 > thresholdActivateSumFFTMethod || sumMic7 > thresholdActivateSumFFTMethod || sumMic8 > thresholdActivateSumFFTMethod)
-  {
-    if (sumMic1 > sumMic2 && sumMic1 > sumMic3 && sumMic1 > sumMic4 && sumMic1 > sumMic5 && 
-        sumMic1 > sumMic6 && sumMic1 > sumMic7 && sumMic1 > sumMic8)
-    {
-      displayDirection("1", 0);
-    }
-    else if (sumMic2 > sumMic1 && sumMic2 > sumMic3 && sumMic2 > sumMic4 && sumMic2 > sumMic5 && 
-             sumMic2 > sumMic6 && sumMic2 > sumMic7 && sumMic2 > sumMic8)
-    {
-      displayDirection("2", 1);
-    }
-    else if (sumMic3 > sumMic1 && sumMic3 > sumMic2 && sumMic3 > sumMic4 && sumMic3 > sumMic5 && 
-             sumMic3 > sumMic6 && sumMic3 > sumMic7 && sumMic3 > sumMic8)
-    {
-      displayDirection("3", 2);
-    }
-    else if (sumMic4 > sumMic1 && sumMic4 > sumMic2 && sumMic4 > sumMic3 && sumMic4 > sumMic5 && 
-             sumMic4 > sumMic6 && sumMic4 > sumMic7 && sumMic4 > sumMic8)
-    {
-      displayDirection("4", 3);
-    }
-    else if (sumMic5 > sumMic1 && sumMic5 > sumMic2 && sumMic5 > sumMic3 && sumMic5 > sumMic4 && 
-             sumMic5 > sumMic6 && sumMic5 > sumMic7 && sumMic5 > sumMic8)
-    {
-      displayDirection("5", 4);
-    }
-    else if (sumMic6 > sumMic1 && sumMic6 > sumMic2 && sumMic6 > sumMic3 && sumMic6 > sumMic4 && 
-             sumMic6 > sumMic5 && sumMic6 > sumMic7 && sumMic6 > sumMic8)
-    {
-      displayDirection("6", 5);
-    }
-    else if (sumMic7 > sumMic1 && sumMic7 > sumMic2 && sumMic7 > sumMic3 && sumMic7 > sumMic4 && 
-             sumMic7 > sumMic5 && sumMic7 > sumMic6 && sumMic7 > sumMic8)
-    {
-      displayDirection("7", 6);
-    }
-    else if (sumMic8 > sumMic1 && sumMic8 > sumMic2 && sumMic8 > sumMic3 && sumMic8 > sumMic4 && 
-             sumMic8 > sumMic5 && sumMic8 > sumMic6 && sumMic8 > sumMic7)
-    {
-      displayDirection("8", 7);
-    }
-  }
-}
-
 void directionality() //TimeTest
 {
   int samplingTime = 867;
 
-  double ppkTheshold = 20;
+  double ppkTheshold = 30;
 
   int z = 0;
 
-  
-  avgSum1 = 0;
-  avgSum2 = 0;
-  avgSum3 = 0;
-  avgSum4 = 0;
-  avgSum5 = 0;
-  avgSum6 = 0;
-  avgSum7 = 0;
-  avgSum8 = 0;
-
+  double avgSum1 = 0;
+  double avgSum2 = 0;
+  double avgSum3 = 0;
+  double avgSum4 = 0;
+  double avgSum5 = 0;
+  double avgSum6 = 0;
+  double avgSum7 = 0;
+  double avgSum8 = 0;
   
   int store1 = 0;
   int store2 = 0;
@@ -414,14 +235,14 @@ void directionality() //TimeTest
 
   double micsSum[8] = {0, 0, 0, 0, 0, 0, 0, 0};
   
-  double mic1LocationAndFirstPpkAndSum[2] = {0, 0}; 
-  double mic2LocationAndFirstPpkAndSum[2] = {0, 0};   
-  double mic3LocationAndFirstPpkAndSum[2] = {0, 0};
-  double mic4LocationAndFirstPpkAndSum[2] = {0, 0};
-  double mic5LocationAndFirstPpkAndSum[2] = {0, 0};
-  double mic6LocationAndFirstPpkAndSum[2] = {0, 0};
-  double mic7LocationAndFirstPpkAndSum[2] = {0, 0};
-  double mic8LocationAndFirstPpkAndSum[2] = {0, 0};   
+  double mic1FirstPpkAndSum[2] = {0, 0}; 
+  double mic2FirstPpkAndSum[2] = {0, 0};   
+  double mic3FirstPpkAndSum[2] = {0, 0};
+  double mic4FirstPpkAndSum[2] = {0, 0};
+  double mic5FirstPpkAndSum[2] = {0, 0};
+  double mic6FirstPpkAndSum[2] = {0, 0};
+  double mic7FirstPpkAndSum[2] = {0, 0};
+  double mic8FirstPpkAndSum[2] = {0, 0};   
 
   //Peak-to-peak level
   double mic1ppk[samplingTime]; 
@@ -435,14 +256,14 @@ void directionality() //TimeTest
     
   while (z < 5)
   {
-    mic1LocationAndFirstPpkAndSum[1] = 0; 
-    mic2LocationAndFirstPpkAndSum[1] = 0;   
-    mic3LocationAndFirstPpkAndSum[1] = 0;
-    mic4LocationAndFirstPpkAndSum[1] = 0;
-    mic5LocationAndFirstPpkAndSum[1] = 0;
-    mic6LocationAndFirstPpkAndSum[1] = 0;
-    mic7LocationAndFirstPpkAndSum[1] = 0;
-    mic8LocationAndFirstPpkAndSum[1] = 0; 
+    mic1FirstPpkAndSum[1] = 0; 
+    mic2FirstPpkAndSum[1] = 0;   
+    mic3FirstPpkAndSum[1] = 0;
+    mic4FirstPpkAndSum[1] = 0;
+    mic5FirstPpkAndSum[1] = 0;
+    mic6FirstPpkAndSum[1] = 0;
+    mic7FirstPpkAndSum[1] = 0;
+    mic8FirstPpkAndSum[1] = 0; 
   
     double signalMax1 = 0;
     double signalMin1 = 1023;
@@ -592,14 +413,14 @@ void directionality() //TimeTest
       }
 
       //Get sum of analog
-      mic1LocationAndFirstPpkAndSum[1] = mic1LocationAndFirstPpkAndSum[1] + pow(micsAnalog[0], 2);
-      mic2LocationAndFirstPpkAndSum[1] = mic2LocationAndFirstPpkAndSum[1] + pow(micsAnalog[1], 2);
-      mic3LocationAndFirstPpkAndSum[1] = mic3LocationAndFirstPpkAndSum[1] + pow(micsAnalog[2], 2);
-      mic4LocationAndFirstPpkAndSum[1] = mic4LocationAndFirstPpkAndSum[1] + pow(micsAnalog[3], 2);
-      mic5LocationAndFirstPpkAndSum[1] = mic5LocationAndFirstPpkAndSum[1] + pow(micsAnalog[4], 2);
-      mic6LocationAndFirstPpkAndSum[1] = mic6LocationAndFirstPpkAndSum[1] + pow(micsAnalog[5], 2);
-      mic7LocationAndFirstPpkAndSum[1] = mic7LocationAndFirstPpkAndSum[1] + pow(micsAnalog[6], 2);
-      mic8LocationAndFirstPpkAndSum[1] = mic8LocationAndFirstPpkAndSum[1] + pow(micsAnalog[7], 2);
+      mic1FirstPpkAndSum[1] = mic1FirstPpkAndSum[1] + pow(micsAnalog[0], 2);
+      mic2FirstPpkAndSum[1] = mic2FirstPpkAndSum[1] + pow(micsAnalog[1], 2);
+      mic3FirstPpkAndSum[1] = mic3FirstPpkAndSum[1] + pow(micsAnalog[2], 2);
+      mic4FirstPpkAndSum[1] = mic4FirstPpkAndSum[1] + pow(micsAnalog[3], 2);
+      mic5FirstPpkAndSum[1] = mic5FirstPpkAndSum[1] + pow(micsAnalog[4], 2);
+      mic6FirstPpkAndSum[1] = mic6FirstPpkAndSum[1] + pow(micsAnalog[5], 2);
+      mic7FirstPpkAndSum[1] = mic7FirstPpkAndSum[1] + pow(micsAnalog[6], 2);
+      mic8FirstPpkAndSum[1] = mic8FirstPpkAndSum[1] + pow(micsAnalog[7], 2);
 
       /*Serial.print(i);
       Serial.print("   ");
@@ -620,21 +441,21 @@ void directionality() //TimeTest
       Serial.print(mic8ppk[i]);
       Serial.print("   ");  
       Serial.print("   ");
-      Serial.print(mic1LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic1FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.print(mic2LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic2FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.print(mic3LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic3FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.print(mic4LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic4FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.print(mic5LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic5FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.print(mic6LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic6FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.print(mic7LocationAndFirstPpkAndSum[1]);
+      Serial.print(mic7FirstPpkAndSum[1]);
       Serial.print("   ");
-      Serial.println(mic8LocationAndFirstPpkAndSum[1]);*/
+      Serial.println(mic8FirstPpkAndSum[1]);*/
     }
 
     for(int i = 0; i < samplingTime; i++)
@@ -643,104 +464,104 @@ void directionality() //TimeTest
       {
         if (mic1ppk[i] > 0)
         {
-          mic1LocationAndFirstPpkAndSum[0] = mic1ppk[i];
+          mic1FirstPpkAndSum[0] = mic1ppk[i];
           
-          micsSum[0] = mic1LocationAndFirstPpkAndSum[1];
+          micsSum[0] = mic1FirstPpkAndSum[1];
         }
         else
         {
-          mic1LocationAndFirstPpkAndSum[0] = 0;
+          mic1FirstPpkAndSum[0] = 0;
           
           micsSum[0] = 0;
         }
         
         if (mic2ppk[i] > 0)
         {
-          mic2LocationAndFirstPpkAndSum[0] = mic2ppk[i];
+          mic2FirstPpkAndSum[0] = mic2ppk[i];
 
-          micsSum[1] = mic2LocationAndFirstPpkAndSum[1];
+          micsSum[1] = mic2FirstPpkAndSum[1];
         }
         else
         {
-          mic2LocationAndFirstPpkAndSum[0] = 0;
+          mic2FirstPpkAndSum[0] = 0;
           
           micsSum[1] = 0;
         }
         
         if (mic3ppk[i] > 0)
         {
-          mic3LocationAndFirstPpkAndSum[0] = mic3ppk[i];
+          mic3FirstPpkAndSum[0] = mic3ppk[i];
 
-          micsSum[2] = mic3LocationAndFirstPpkAndSum[1];
+          micsSum[2] = mic3FirstPpkAndSum[1];
         }
         else
         {
-          mic3LocationAndFirstPpkAndSum[0] = 0;
+          mic3FirstPpkAndSum[0] = 0;
           
           micsSum[2] = 0;
         }
         
         if (mic4ppk[i] > 0)
         {
-          mic4LocationAndFirstPpkAndSum[0] = mic4ppk[i];
+          mic4FirstPpkAndSum[0] = mic4ppk[i];
 
-          micsSum[3] = mic4LocationAndFirstPpkAndSum[1];
+          micsSum[3] = mic4FirstPpkAndSum[1];
         }
         else
         {
-          mic4LocationAndFirstPpkAndSum[0] = 0;
+          mic4FirstPpkAndSum[0] = 0;
           
           micsSum[3] = 0;
         }
         
         if (mic5ppk[i] > 0)
         {
-          mic5LocationAndFirstPpkAndSum[0] = mic5ppk[i];
+          mic5FirstPpkAndSum[0] = mic5ppk[i];
 
-          micsSum[4] = mic5LocationAndFirstPpkAndSum[1];
+          micsSum[4] = mic5FirstPpkAndSum[1];
         }
         else
         {
-          mic5LocationAndFirstPpkAndSum[0] = 0;
+          mic5FirstPpkAndSum[0] = 0;
           
           micsSum[4] = 0;
         }
         
         if (mic6ppk[i] > 0)
         {
-          mic6LocationAndFirstPpkAndSum[0] = mic6ppk[i];
+          mic6FirstPpkAndSum[0] = mic6ppk[i];
 
-          micsSum[5] = mic6LocationAndFirstPpkAndSum[1];
+          micsSum[5] = mic6FirstPpkAndSum[1];
         }
         else
         {
-          mic6LocationAndFirstPpkAndSum[0] = 0;
+          mic6FirstPpkAndSum[0] = 0;
           
           micsSum[5] = 0;
         }
         
         if (mic7ppk[i] > 0)
         {
-          mic7LocationAndFirstPpkAndSum[0] = mic7ppk[i];
+          mic7FirstPpkAndSum[0] = mic7ppk[i];
 
-          micsSum[6] = mic7LocationAndFirstPpkAndSum[1];
+          micsSum[6] = mic7FirstPpkAndSum[1];
         }
         else
         {
-          mic7LocationAndFirstPpkAndSum[0] = 0;
+          mic7FirstPpkAndSum[0] = 0;
           
           micsSum[6] = 0;
         }
         
         if (mic8ppk[i] > 0)
         {
-          mic8LocationAndFirstPpkAndSum[0] = mic8ppk[i];
+          mic8FirstPpkAndSum[0] = mic8ppk[i];
 
-          micsSum[7] = mic8LocationAndFirstPpkAndSum[1];
+          micsSum[7] = mic8FirstPpkAndSum[1];
         }
         else
         {
-          mic8LocationAndFirstPpkAndSum[0] = 0;
+          mic8FirstPpkAndSum[0] = 0;
           
           micsSum[7] = 0;
         }
@@ -752,58 +573,58 @@ void directionality() //TimeTest
     //Values
     /*Serial.print("m1");
     Serial.print("\t");
-    Serial.print(mic1LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic1FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic1LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic1FirstPpkAndSum[1]);
     Serial.print("\t");
     
     Serial.print("m2");
     Serial.print("\t");
-    Serial.print(mic2LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic2FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic2LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic2FirstPpkAndSum[1]);
     Serial.print("\t");
     
     Serial.print("m3");
     Serial.print("\t");
-    Serial.print(mic3LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic3FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic3LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic3FirstPpkAndSum[1]);
     Serial.print("\t");
     
     Serial.print("m4");
     Serial.print("\t");
-    Serial.print(mic4LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic4FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic4LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic4FirstPpkAndSum[1]);
     Serial.print("\t");
     
     Serial.print("m5");
     Serial.print("\t");
-    Serial.print(mic5LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic5FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic5LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic5FirstPpkAndSum[1]);
     Serial.print("\t");
     
     Serial.print("m6");
     Serial.print("\t");
-    Serial.print(mic6LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic6FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic6LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic6FirstPpkAndSum[1]);
     Serial.print("\t");
 
     Serial.print("m7");
     Serial.print("\t");
-    Serial.print(mic7LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic7FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.print(mic7LocationAndFirstPpkAndSum[1]);
+    Serial.print(mic7FirstPpkAndSum[1]);
     Serial.print("\t");
 
     Serial.print("m8");
     Serial.print("\t");
-    Serial.print(mic8LocationAndFirstPpkAndSum[0]);
+    Serial.print(mic8FirstPpkAndSum[0]);
     Serial.print("\t");
-    Serial.println(mic8LocationAndFirstPpkAndSum[1]);*/
+    Serial.println(mic8FirstPpkAndSum[1]);*/
 
     
     //Active when above threshold
@@ -811,74 +632,127 @@ void directionality() //TimeTest
     if (micsSum[0] > thresholdActivate || micsSum[1] > thresholdActivate || micsSum[2] > thresholdActivate || micsSum[3] > thresholdActivate 
     || micsSum[4] > thresholdActivate || micsSum[5] > thresholdActivate || micsSum[6] > thresholdActivate || micsSum[7] > thresholdActivate)
     {
-      if (micsSum[0] > micsSum[1] && micsSum[0] > micsSum[2] && micsSum[0] > micsSum[3] && micsSum[0] > micsSum[4] && 
-         micsSum[0] > micsSum[5] && micsSum[0] > micsSum[6] && micsSum[0] > micsSum[7])
+      int maxVal = 0;
+      int posMic  = 0;
+
+      if(micsSum[0] + micsSum[1] + micsSum[2] > maxVal)
       {
-        //Serial.println("Peak decected: Mic 1 is the loudest");
-        store1 = store1+micsSum[0];
-        a++;
+        maxVal = micsSum[0] + micsSum[1] + micsSum[2];
+        posMic = 2;
+      }
+      if(micsSum[1] + micsSum[2] + micsSum[3] > maxVal)
+      {
+        maxVal = micsSum[1] + micsSum[2] + micsSum[3];
+        posMic = 3;
+      }
+      if(micsSum[2] + micsSum[3] + micsSum[4] > maxVal)
+      {
+        maxVal = micsSum[2] + micsSum[3] + micsSum[4];
+        posMic = 4;
+      }
+      if(micsSum[3] + micsSum[4] + micsSum[5] > maxVal)
+      {
+        maxVal = micsSum[3] + micsSum[4] + micsSum[5];
+        posMic = 5;
+      }
+      if(micsSum[4] + micsSum[5] + micsSum[6] > maxVal)
+      {
+        maxVal = micsSum[4] + micsSum[5] + micsSum[6];
+        posMic = 6;
+      }
+      if(micsSum[5] + micsSum[6] + micsSum[7] > maxVal)
+      {
+        maxVal = micsSum[5] + micsSum[6] + micsSum[7];
+        posMic = 7;
+      }
+      if(micsSum[6] + micsSum[7] + micsSum[0] > maxVal)
+      {
+        maxVal = micsSum[6] + micsSum[7] + micsSum[0];
+        posMic = 8;
+      }
+      if(micsSum[7] + micsSum[0] + micsSum[1] > maxVal)
+      {
+        maxVal = micsSum[7] + micsSum[0] + micsSum[1];
+        posMic = 1;
+      }
+
+      Serial.println(posMic);
+      
+      if (posMic == 2)
+      {
+        store1 = store1 + micsSum[0] + micsSum[1] + micsSum[2];
+        //a++;
+        a = 1;
         //store1 = store1+a;
       }
-      if (micsSum[1] > micsSum[0] && micsSum[1] > micsSum[2] && micsSum[1] > micsSum[3] && micsSum[1] > micsSum[4] && 
-              micsSum[1] > micsSum[5] && micsSum[1] > micsSum[6] && micsSum[1] > micsSum[7])
+      else if (posMic == 3)
       {
-        //Serial.println("Peak decected: Mic 2 is the loudest");
-        store2 = store2+micsSum[1];
-        b++;
+        store2 = store2 + micsSum[1] + micsSum[2] + micsSum[3];
+        //b++;
+        b = 1;
         //store2 = store2+b;
       }
-      if (micsSum[2] > micsSum[0] && micsSum[2] > micsSum[1] && micsSum[2] > micsSum[3] && micsSum[2] > micsSum[4] && 
-              micsSum[2] > micsSum[5] && micsSum[2] > micsSum[6] && micsSum[2] > micsSum[7])
+      else if (posMic == 4)
       {
-        //Serial.println("Peak decected: Mic 3 is the loudest");
-        store3 = store3+micsSum[2];
-        c++;
+        store3 = store3 + micsSum[2] + micsSum[3] + micsSum[4];
+        //c++;
+        c = 1;
         //store3 = store3+c;
       }
-      if (micsSum[3] > micsSum[0] && micsSum[3] > micsSum[1] && micsSum[3] > micsSum[2] && micsSum[3] > micsSum[4] && 
-              micsSum[3] > micsSum[5] && micsSum[3] > micsSum[6] && micsSum[3] > micsSum[7])
+      else if (posMic == 5)
       {
-        //Serial.println("Peak decected: Mic 4 is the loudest");
-        store4 = store4+micsSum[3];
-        d++;
+        store4 = store4 + micsSum[3] + micsSum[4] + micsSum[5];
+        //d++;
+        d = 1;
         //store4 = store4+d;
       }
-      if (micsSum[4] > micsSum[0] && micsSum[4] > micsSum[1] && micsSum[4] > micsSum[2] && micsSum[4] > micsSum[3] && 
-              micsSum[4] > micsSum[5] && micsSum[4] > micsSum[6] && micsSum[4] > micsSum[7])
+      else if (posMic == 6)
       {
-        //Serial.println("Peak decected: Mic 5 is the loudest");
-        store5 = store5+micsSum[4];
-        e++;
+        store5 = store5 + micsSum[4] + micsSum[5] + micsSum[6];
+        //e++;
+        e = 1;
         //store5 = store5+e;
       }
-      if (micsSum[5] > micsSum[0] && micsSum[5] > micsSum[1] && micsSum[5] > micsSum[2] && micsSum[5] > micsSum[3] && 
-              micsSum[5] > micsSum[4] && micsSum[5] > micsSum[6] && micsSum[5] > micsSum[7])
+      else if (posMic == 7)
       {
-        //Serial.println("Peak decected: Mic 6 is the loudest");
-        store6 = store6+micsSum[5];
-        f++;
+        store6 = store6 + micsSum[5] + micsSum[6] + micsSum[7];
+        //f++;
+        f = 1;
         //store6 = store6+f;
       }
-      if (micsSum[6] > micsSum[0] && micsSum[6] > micsSum[1] && micsSum[6] > micsSum[2] && micsSum[6] > micsSum[3] && 
-              micsSum[6] > micsSum[4] && micsSum[6] > micsSum[5] && micsSum[6] > micsSum[7])
+      else if (posMic == 8)
       {
-        //Serial.println("Peak decected: Mic 7 is the loudest");
-        store7 = store7+micsSum[6];
-        g++;
+        store7 = store7 + micsSum[6] + micsSum[7] + micsSum[0];
+        //g++;
+        g = 1;
         //store7 = store7+g;
       }
-      if (micsSum[7] > micsSum[0] && micsSum[7] > micsSum[1] && micsSum[7] > micsSum[2] && micsSum[7] > micsSum[3] && 
-              micsSum[7] > micsSum[4] && micsSum[7] > micsSum[5] && micsSum[7] > micsSum[6])
+      else if (posMic == 1)
       {
-        //Serial.println("Peak decected: Mic 8 is the loudest");
-        store8 = store8+micsSum[7];
-        h++;
+        store8 = store8 + micsSum[7] + micsSum[0] + micsSum[1];
+        //h++;
+        h = 1;
         //store8 = store8+h;
       }
-      /*else
-        Serial.println("cal is wrong");*/
     }
 
+
+    /*Serial.print(store1);
+    Serial.print("  ");
+    Serial.print(store2);
+    Serial.print("  ");
+    Serial.print(store3);
+    Serial.print("  ");
+    Serial.print(store4);
+    Serial.print("  ");
+    Serial.print(store5);
+    Serial.print("  ");
+    Serial.print(store6);
+    Serial.print("  ");
+    Serial.print(store7);
+    Serial.print("  ");
+    Serial.println(store8);*/
+    
     z++;
   }
 
@@ -938,9 +812,6 @@ void directionality() //TimeTest
     avgSum8 = store8/h;
   else 
     avgSum8 = 0;
-    
-
-directionality3();
 
   //For debugging
   //Print to screen
@@ -956,22 +827,6 @@ directionality3();
   tft.println(avgSum8);*/
 
   //Print to console
-  /*Serial.print(analogRead(A0));
-  Serial.print("   ");
-  Serial.print(analogRead(A1));
-  Serial.print("   ");
-  Serial.print(analogRead(A2));
-  Serial.print("   ");
-  Serial.print(analogRead(A3));
-  Serial.print("   ");
-  Serial.print(analogRead(A4));
-  Serial.print("   ");
-  Serial.print(analogRead(A5));
-  Serial.print("   ");
-  Serial.print(analogRead(A6));
-  Serial.print("   ");
-  Serial.println(analogRead(A7));
-  delay(500);*/
   /*Serial.print(avgSum1);
   Serial.print("   ");
   Serial.print(avgSum2);
@@ -988,80 +843,51 @@ directionality3();
   Serial.print("   ");
   Serial.println(avgSum8);*/
 
-  /*if(avgSum1)
+  if((avgSum1 > avgSum2) && (avgSum1 > avgSum3) && (avgSum1 > avgSum4) && (avgSum1 > avgSum5)
+  && (avgSum1 > avgSum6) && (avgSum1 > avgSum7) && (avgSum1 > avgSum8))
+  {
+    displayDirection("2", 1);
+  }   
+  else if((avgSum2 > avgSum1) && (avgSum2 > avgSum3) && (avgSum2 > avgSum4) && (avgSum2 > avgSum5) 
+       && (avgSum2 > avgSum6) && (avgSum2 > avgSum7) && (avgSum2 > avgSum8))
+  {
+    displayDirection("3", 2);
+  }
+  else if((avgSum3 > avgSum1) && (avgSum3 > avgSum2) && (avgSum3 > avgSum4) && (avgSum3 > avgSum5) 
+       && (avgSum3 > avgSum6) && (avgSum3 > avgSum7) && (avgSum3 > avgSum8))
+  { 
+    displayDirection("4", 3);
+  } 
+  else if((avgSum4 > avgSum1) && (avgSum4 > avgSum2) && (avgSum4 > avgSum3) && (avgSum4 > avgSum5) 
+       && (avgSum4 > avgSum6) && (avgSum4 > avgSum7) && (avgSum4 > avgSum8))
+  {
+    displayDirection("5", 4);
+  }   
+  else if((avgSum5 > avgSum1) && (avgSum5 > avgSum2) && (avgSum5 > avgSum3) && (avgSum5 > avgSum4) 
+       && (avgSum5 > avgSum6) && (avgSum5 > avgSum7) && (avgSum5 > avgSum8))
+  {
+    displayDirection("6", 5);
+  }
+  else if((avgSum6 > avgSum1) && (avgSum6 > avgSum2) && (avgSum6 > avgSum3) && (avgSum6 > avgSum4) 
+       && (avgSum6 > avgSum5) && (avgSum6 > avgSum7) && (avgSum6 > avgSum8))
+  {
+    displayDirection("7", 6); 
+  }
+  else if((avgSum7 > avgSum1) && (avgSum7 > avgSum2) && (avgSum7 > avgSum3) && (avgSum7 > avgSum4)
+       && (avgSum7 > avgSum5) && (avgSum7 > avgSum6) && (avgSum7 > avgSum8))
+  {
+    displayDirection("8", 7);
+  }
+  else if((avgSum8 > avgSum1) && (avgSum8 > avgSum2) && (avgSum8 > avgSum3) && (avgSum8 > avgSum4) 
+       && (avgSum8 > avgSum5) && (avgSum8 > avgSum6) && (avgSum8 > avgSum7))
+  {
+    displayDirection("1", 0);
+  }
   else
   {
-    Serial.println("Something is wrong");
+    Serial.println("No output, below threshold");
+    tft.fillScreen(ST7735_BLACK);
   }
-  */
-}
-
-
-void directionality3()
-{
-  
-  double micData[9] = {0};
-   
-   
-   micData[1] = avgSum1;
-   micData[2] = avgSum2;
-   micData[3] = avgSum3;
-   micData[4] = avgSum4;
-   micData[5] = avgSum5;
-   micData[6] = avgSum6;
-   micData[7] = avgSum7;
-   micData[8] = avgSum8;
-  
-  
-  int position = 0; //micx = posx
-  int maxVal = 0;
-
-
-
-
-   if(micData[8] + micData[1] + micData[2] > maxVal)
-    {
-      maxVal = micData[8] + micData[1] + micData[2] ;
-      position = 0;
-    }
-    if(micData[1] + micData[2] + micData[3] > maxVal)
-    {
-      maxVal = micData[1] + micData[2] + micData[3] ;
-      position = 1;
-    }
-    if(micData[2] + micData[3] + micData[4] > maxVal)
-    {
-      maxVal = micData[2] + micData[3] + micData[4];
-      position = 2;
-    }
-    if(micData[3] + micData[4] + micData[5] > maxVal)
-    {
-       maxVal = micData[3] + micData[4] + micData[5];
-      position = 3;
-    }
-    if(micData[4] + micData[5] + micData[6] > maxVal)
-    {
-       maxVal = micData[4] + micData[5] + micData[6];
-      position = 4;
-    }
-    if(micData[5] + micData[6] + micData[7] > maxVal)
-    {
-       maxVal = micData[5] + micData[6] + micData[7];
-      position = 5;
-    }
-    if(micData[6] + micData[7] + micData[8] > maxVal)
-    {
-       maxVal = micData[6] + micData[7] + micData[8];
-      position = 6;
-    }
-    if(micData[7] + micData[8] + micData[1] > maxVal)
-    {
-       maxVal = micData[7] + micData[8] + micData[1];
-      position = 7;
-    }
-
-    displayDirection("nan", position);
-
 }
 
 void getFFT()
@@ -1098,9 +924,6 @@ void getFFT()
         
       micInput[i] = vReal[i];
   }
-
-  //delay(1000);  //Repeat the process every second OR:
-  //while(1);       //Run code once
 }
 
 void correlation()
