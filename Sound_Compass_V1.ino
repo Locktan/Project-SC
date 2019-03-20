@@ -725,6 +725,8 @@ void displayDirection(int directionCoordinate)
   }
 
   vibrationMotor(600);
+ 
+ //test
 }
 
 void displaySiren(int siren, String inputString)
